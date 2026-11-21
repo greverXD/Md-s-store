@@ -1,0 +1,6 @@
+# Настройки для Supabase CLI (необязательно, если всё делаете через Dashboard)
+project_id = "doll-store"
+
+[functions.create-order]
+# Функция сама проверяет JWT пользователя
+verify_jwt = true
