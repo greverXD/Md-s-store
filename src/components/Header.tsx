@@ -8,7 +8,9 @@ const navLinks = [
   { label: "Авторские куклы", to: "/dolls" },
   { label: "Одежда", to: "/clothes" },
   { label: "Аксессуары", to: "/accessories" },
+  { label: "Сшить своими руками", to: "/diy" },
   { label: "Конструктор образа", to: "/builder" },
+  { label: "О мастере", to: "/about" },
 ];
 
 export function Header() {
@@ -35,7 +37,7 @@ export function Header() {
           <span className="text-xl font-['Gilda_Display'] text-[#3A2E27] tracking-wide">Кукольный Дом</span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden xl:flex items-center gap-7">
           {navLinks.map(l => (
             <NavLink key={l.to} to={l.to} style={linkStyle}
               className="text-sm font-['Jost'] font-medium tracking-wide transition-colors duration-200 relative group">
@@ -62,7 +64,7 @@ export function Header() {
                 style={{ background: "#B8975A", color: "#fff" }}>{count}</span>
             )}
           </Link>
-          <button className="lg:hidden w-9 h-9 rounded-full flex items-center justify-center text-[#8B7B6E]"
+          <button className="xl:hidden w-9 h-9 rounded-full flex items-center justify-center text-[#8B7B6E]"
             onClick={() => setMenuOpen(v => !v)} aria-label="Меню">
             {menuOpen ? <X size={17} /> : <Menu size={17} />}
           </button>
@@ -70,7 +72,7 @@ export function Header() {
       </div>
 
       {menuOpen && (
-        <div className="lg:hidden border-t px-6 py-4 flex flex-col gap-4" style={{ borderColor: "rgba(186,162,138,0.2)" }}>
+        <div className="xl:hidden border-t px-6 py-4 flex flex-col gap-4" style={{ borderColor: "rgba(186,162,138,0.2)" }}>
           {navLinks.map(l => (
             <NavLink key={l.to} to={l.to} style={linkStyle} className="text-sm font-['Jost'] font-medium text-left">{l.label}</NavLink>
           ))}

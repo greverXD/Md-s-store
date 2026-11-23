@@ -4,7 +4,7 @@ import { ArrowRight, ChevronLeft } from "lucide-react";
 import { CLOTHING_CATS, DOLL_META, DOLL_TYPES } from "@/data/demo";
 import { useProducts } from "@/lib/catalog";
 import { ProductCard } from "@/components/ProductCard";
-import { FilterChip, Spinner } from "@/components/ui";
+import { FilterChip, Spinner, StockTabs, matchesStock, type StockFilter } from "@/components/ui";
 import type { DollType } from "@/lib/types";
 
 export default function ClothesPage() {
@@ -12,7 +12,8 @@ export default function ClothesPage() {
   const navigate = useNavigate();
   const dollType = DOLL_TYPES.includes(type as DollType) ? (type as DollType) : null;
   const [selectedCats, setSelectedCats] = useState<string[]>([]);
-  useEffect(() => setSelectedCats([]), [dollType]);
+  const [stock, setStock] = useState<StockFilter>("all");
+  useEffect(() => { setSelectedCats([]); setStock("all"); }, [dollType]);
   const { data, loading } = useProducts({ kind: "clothing", dollType: dollType ?? undefined });
 
   const toggleCat = (c: string) => setSelectedCats(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c]);
@@ -57,7 +58,9 @@ export default function ClothesPage() {
   const meta = DOLL_META[dollType];
   const cats = CLOTHING_CATS[dollType];
   const all = data ?? [];
-  const products = selectedCats.length ? all.filter(p => p.category && selectedCats.includes(p.category)) : all;
+  const byCat = selectedCats.length ? all.filter(p => p.category && selectedCats.includes(p.category)) : all;
+  const products = byCat.filter(p => matchesStock(p.inStock, stock));
+  const counts = { all: byCat.length, in: byCat.filter(p => p.inStock).length, order: byCat.filter(p => !p.inStock).length };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-16">
@@ -70,6 +73,11 @@ export default function ClothesPage() {
       </div>
 
       <h1 className="font-['Gilda_Display'] text-4xl text-[#3A2E27] mb-8">{meta.label}</h1>
+
+      {/* Подразделы: в наличии / на заказ */}
+      <div className="mb-6">
+        <StockTabs value={stock} onChange={setStock} counts={data ? counts : undefined} />
+      </div>
 
       {/* Category filters */}
       <div className="flex flex-wrap gap-2 mb-10">

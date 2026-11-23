@@ -3,7 +3,7 @@
 //  2) как источник для supabase/seed.sql (npm run gen:seed).
 import type { DollType, OutfitZone, Product } from "../lib/types.ts";
 
-interface DemoProduct { id: string; name: string; price: number; image: string; isNew?: boolean; inStock: boolean; category?: string; height?: string; hairColor?: string; eyeColor?: string; collection?: string; }
+interface DemoProduct { id: string; name: string; price: number; image: string; isNew?: boolean; inStock: boolean; category?: string; description?: string; height?: string; hairColor?: string; eyeColor?: string; collection?: string; }
 interface OutfitOption { name: string; color: string; price: number; zone: OutfitZone; }
 
 // ─── Meta ─────────────────────────────────────────────────────────────────────
@@ -120,6 +120,32 @@ const ACCESSORIES: DemoProduct[] = ACC_CATS.flatMap((cat, ci) =>
     category: cat,
   }))
 );
+
+// ─── Сшить куклу своими руками ─────────────────────────────────────────────────
+export const DIY_CATS = ["Наборы для шитья", "Выкройки", "Мастер-классы"];
+const DIY_IMGS = [
+  "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=400&h=500&fit=crop&auto=format",
+  "https://images.unsplash.com/photo-1528578577235-b963df6db908?w=400&h=500&fit=crop&auto=format",
+  "https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?w=400&h=500&fit=crop&auto=format",
+];
+const DIY: DemoProduct[] = [
+  { id: "diy0", category: "Наборы для шитья", name: "Набор «Первая кукла», 30 см", price: 2400, isNew: true, inStock: true,
+    description: "Всё для первой куклы: выкройка, ткань для тела, наполнитель, нитки, волосы, ткань на платье и пошаговая инструкция с фото." },
+  { id: "diy1", category: "Наборы для шитья", name: "Набор «Лесная фея», 40 см", price: 3200, inStock: true,
+    description: "Набор с выкройкой куклы и наряда феи, льняной тканью, шерстью для волос и подробным видеоуроком." },
+  { id: "diy2", category: "Наборы для шитья", name: "Набор «Зимняя история», 45 см", price: 3600, inStock: false,
+    description: "Комплектуется под заказ: подберём ткани и цвет волос по вашему желанию." },
+  { id: "diy3", category: "Выкройки", name: "Выкройка куклы 35 см (PDF)", price: 650, inStock: true,
+    description: "Электронная выкройка в натуральную величину и инструкция по сборке. Отправим на почту после оплаты." },
+  { id: "diy4", category: "Выкройки", name: "Выкройки одежды: платье, пальто, берет", price: 550, isNew: true, inStock: true,
+    description: "Комплект выкроек базового гардероба для куклы 35–40 см." },
+  { id: "diy5", category: "Выкройки", name: "Выкройка «Зайка в платье»", price: 450, inStock: true,
+    description: "Выкройка интерьерной игрушки-зайки с нарядом." },
+  { id: "diy6", category: "Мастер-классы", name: "Видео мастер-класс «Кукла с нуля»", price: 2900, inStock: true,
+    description: "Запись мастер-класса: от раскроя до росписи лица. Доступ навсегда, вопросы мастеру в чате." },
+  { id: "diy7", category: "Мастер-классы", name: "Личный онлайн-урок с мастером", price: 3500, inStock: false,
+    description: "Индивидуальное занятие по видеосвязи, 2 часа. Время согласуем после заказа." },
+].map((p, i) => ({ ...p, image: DIY_IMGS[i % DIY_IMGS.length] }));
 
 // ─── Outfit Builder Data ───────────────────────────────────────────────────────
 export const OUTFIT_CATS: Record<DollType, string[]> = {
@@ -293,12 +319,14 @@ const toProduct = (p: DemoProduct, kind: Product["kind"], dollType: DollType | n
   id: p.id, kind, dollType, name: p.name, price: p.price, image: p.image,
   isNew: !!p.isNew, inStock: p.inStock, category: p.category ?? null,
   height: p.height ?? null, hairColor: p.hairColor ?? null, eyeColor: p.eyeColor ?? null, collection: p.collection ?? null,
+  description: p.description ?? null,
 });
 
 export const DEMO_PRODUCTS: Product[] = [
   ...TEXTILE_DOLLS.map(p => toProduct(p, "doll", "textile")),
   ...DOLL_TYPES.flatMap(t => CLOTHING[t].map(p => toProduct(p, "clothing", t))),
   ...ACCESSORIES.map(p => toProduct(p, "accessory", null)),
+  ...DIY.map(p => toProduct(p, "diy", null)),
 ];
 
 export const DEMO_OUTFIT_ITEMS = DOLL_TYPES.flatMap(t =>

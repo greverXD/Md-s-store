@@ -59,13 +59,13 @@ export default function HomePage() {
           <h2 className="font-['Gilda_Display'] text-4xl text-[#3A2E27]">Разделы магазина</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {DOLL_TYPES.map((type, i) => {
+          {DOLL_TYPES.map(type => {
             const meta = DOLL_META[type];
             return (
               <button
                 key={type}
                 onClick={() => type === "textile" ? navigate("/dolls") : navigate(`/clothes/${type}`)}
-                className={`group relative overflow-hidden rounded-2xl text-left transition-all duration-300 hover:shadow-[0_12px_40px_rgba(58,46,39,0.15)] hover:-translate-y-1 ${i === 0 ? "sm:col-span-2 lg:col-span-1 lg:row-span-1" : ""}`}
+                className={`group relative overflow-hidden rounded-2xl text-left transition-all duration-300 hover:shadow-[0_12px_40px_rgba(58,46,39,0.15)] hover:-translate-y-1`}
                 style={{ background: meta.bg }}
               >
                 <div className="absolute right-0 bottom-0 w-32 h-40 sm:w-48 sm:h-56 opacity-60 overflow-hidden">
@@ -93,6 +93,22 @@ export default function HomePage() {
               <div>
                 <h3 className="font-['Gilda_Display'] text-2xl text-[#3A2E27] leading-tight mb-2">Кукольные аксессуары</h3>
                 <p className="font-['Jost'] text-sm text-[#8B7B6E]">Игрушки, сумочки, венки, декор и многое другое</p>
+              </div>
+              <div className="flex items-center gap-2 text-[#B8975A] font-['Jost'] text-sm font-medium mt-8">
+                <span>Перейти</span>
+                <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+              </div>
+            </div>
+          </button>
+          <button
+            onClick={() => navigate("/diy")}
+            className="group relative overflow-hidden rounded-2xl text-left transition-all duration-300 hover:shadow-[0_12px_40px_rgba(58,46,39,0.15)] hover:-translate-y-1"
+            style={{ background: "#E9E0EC" }}
+          >
+            <div className="relative z-10 p-8 h-full flex flex-col justify-between min-h-[200px] sm:min-h-[280px]">
+              <div>
+                <h3 className="font-['Gilda_Display'] text-2xl text-[#3A2E27] leading-tight mb-2">Сшить куклу своими руками</h3>
+                <p className="font-['Jost'] text-sm text-[#8B7B6E]">Наборы для шитья, выкройки и мастер-классы</p>
               </div>
               <div className="flex items-center gap-2 text-[#B8975A] font-['Jost'] text-sm font-medium mt-8">
                 <span>Перейти</span>
@@ -134,6 +150,10 @@ export default function HomePage() {
           <p className="font-['Jost'] font-light text-[#8B7B6E] text-lg leading-relaxed max-w-2xl mx-auto">
             Мы создаём авторских текстильных кукол и шьём наряды для коллекционных кукол с 2018 года. Каждое изделие — ручная работа, натуральные ткани, любовь к деталям.
           </p>
+          <button onClick={() => navigate("/about")}
+            className="mt-8 inline-flex items-center gap-2 text-sm font-['Jost'] font-medium text-[#B8975A] hover:gap-3 transition-all duration-200">
+            Познакомиться с мастером <ArrowRight size={14} />
+          </button>
         </div>
       </section>
     </div>

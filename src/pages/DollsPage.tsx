@@ -3,18 +3,19 @@ import { Check } from "lucide-react";
 import { COLLECTIONS, EYE_COLORS, HAIR_COLORS, HEIGHTS } from "@/data/demo";
 import { useProducts } from "@/lib/catalog";
 import { ProductCard } from "@/components/ProductCard";
-import { Notice, Spinner } from "@/components/ui";
+import { Notice, SectionTab, Spinner } from "@/components/ui";
 
 export default function DollsPage() {
   const { data, loading, error } = useProducts({ kind: "doll", dollType: "textile" });
-  const [section, setSection] = useState("В наличии");
+  const [section, setSection] = useState("Все");
   const [selectedHeights, setSelectedHeights] = useState<string[]>([]);
   const [selectedHair, setSelectedHair] = useState<string[]>([]);
   const [selectedEyes, setSelectedEyes] = useState<string[]>([]);
   const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
 
-  const sections = ["В наличии", "На заказ", "Коллекции", "Новинки"];
+  const sections = ["Все", "В наличии", "На заказ", "Коллекции", "Новинки"];
+  const sectionCount = (s: string) => (data ?? []).filter(d => s === "Все" || (s === "В наличии" ? d.inStock : s === "На заказ" ? !d.inStock : s === "Коллекции" ? !!d.collection : d.isNew)).length;
 
   const toggleArr = (arr: string[], val: string, set: (v: string[]) => void) => {
     set(arr.includes(val) ? arr.filter(x => x !== val) : [...arr, val]);
@@ -43,19 +44,7 @@ export default function DollsPage() {
       {/* Section tabs */}
       <div className="flex gap-2 flex-wrap mb-8">
         {sections.map(s => (
-          <button
-            key={s}
-            onClick={() => setSection(s)}
-            className="px-5 py-2 rounded-full font-['Jost'] text-sm font-medium transition-all duration-200"
-            style={{
-              background: section === s ? "#3A2E27" : "#fff",
-              color: section === s ? "#fff" : "#8B7B6E",
-              border: "1px solid",
-              borderColor: section === s ? "#3A2E27" : "rgba(186,162,138,0.3)",
-            }}
-          >
-            {s}
-          </button>
+          <SectionTab key={s} label={s} active={section === s} onClick={() => setSection(s)} count={data ? sectionCount(s) : undefined} />
         ))}
       </div>
 

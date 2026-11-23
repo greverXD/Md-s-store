@@ -5,7 +5,9 @@ const sections = [
   { to: "/dolls", label: "Авторские куклы" },
   { to: "/clothes", label: "Одежда для кукол" },
   { to: "/accessories", label: "Аксессуары" },
+  { to: "/diy", label: "Сшить куклу своими руками" },
   { to: "/builder", label: "Конструктор образа" },
+  { to: "/about", label: "О мастере" },
 ];
 
 export function Footer() {

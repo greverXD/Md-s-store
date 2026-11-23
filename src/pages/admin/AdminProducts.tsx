@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/lib/supabase";
 import { fmt } from "@/lib/format";
-import { ACC_CATS, CLOTHING_CATS, COLLECTIONS, DOLL_META, DOLL_TYPES, EYE_COLORS, HAIR_COLORS, HEIGHTS } from "@/data/demo";
+import { ACC_CATS, CLOTHING_CATS, DIY_CATS, COLLECTIONS, DOLL_META, DOLL_TYPES, EYE_COLORS, HAIR_COLORS, HEIGHTS } from "@/data/demo";
 import { FilterChip, Notice, Spinner } from "@/components/ui";
 import type { DollType, OutfitZone, ProductKind } from "@/lib/types";
 
@@ -13,7 +13,7 @@ interface Row {
 const PRODUCT_COLUMNS = "id, kind, doll_type, category, name, description, price, image_url, is_new, in_stock, active, height, hair_color, eye_color, collection";
 interface OutfitRow { id: string; doll_type: DollType; category: string; name: string; color: string; price: number; zone: OutfitZone; active: boolean }
 
-const KIND_LABEL: Record<ProductKind, string> = { doll: "Куклы", clothing: "Одежда", accessory: "Аксессуары" };
+const KIND_LABEL: Record<ProductKind, string> = { doll: "Куклы", clothing: "Одежда", accessory: "Аксессуары", diy: "Своими руками" };
 const ZONE_LABEL: Record<OutfitZone, string> = { head: "Голова", body: "Платье/комбинезон", top: "Верх", bottom: "Низ", feet: "Обувь", hand: "В руке" };
 
 export default function AdminProducts() {
@@ -198,8 +198,8 @@ function ProductEditor({ kind, row, onClose, onSaved }: { kind: ProductKind; row
             )}
             {kind !== "doll" && (
               <label className={field}>Категория
-                <input name="category" className="input" required list={`cats-${kind}`} defaultValue={row?.category ?? ""} placeholder="Платья, Обувь…" />
-                <datalist id={`cats-${kind}`}>{(kind === "accessory" ? ACC_CATS : [...new Set(Object.values(CLOTHING_CATS).flat())]).map(c => <option key={c} value={c} />)}</datalist>
+                <input name="category" className="input" required list={`cats-${kind}`} defaultValue={row?.category ?? ""} placeholder={kind === "diy" ? "Наборы для шитья, Выкройки…" : "Платья, Обувь…"} />
+                <datalist id={`cats-${kind}`}>{(kind === "accessory" ? ACC_CATS : kind === "diy" ? DIY_CATS : [...new Set(Object.values(CLOTHING_CATS).flat())]).map(c => <option key={c} value={c} />)}</datalist>
               </label>
             )}
             {kind === "doll" && (

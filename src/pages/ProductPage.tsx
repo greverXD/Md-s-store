@@ -4,7 +4,7 @@ import { useProduct } from "@/lib/catalog";
 import { fmt } from "@/lib/format";
 import { DOLL_META } from "@/data/demo";
 import { useCart } from "@/context/CartContext";
-import { EmptyState, Spinner } from "@/components/ui";
+import { EmptyState, Spinner, StockBadge } from "@/components/ui";
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -31,7 +31,7 @@ export default function ProductPage() {
           {product.image && <img src={product.image} alt={product.name} className="w-full h-full object-cover" />}
         </div>
         <div>
-          <p className="eyebrow">{product.inStock ? "В наличии" : "Изготовим на заказ"}</p>
+          <StockBadge inStock={product.inStock} className="mb-4" />
           <h1 className="font-['Gilda_Display'] text-3xl sm:text-4xl lg:text-5xl text-[#3A2E27] mb-4">{product.name}</h1>
           <p className="font-['Jost'] text-2xl text-[#B8975A] mb-8">{fmt(product.price)}</p>
           <dl className="grid grid-cols-2 gap-x-6 gap-y-3 mb-8 font-['Jost'] text-sm">
@@ -46,7 +46,7 @@ export default function ProductPage() {
             {product.inStock ? "В корзину" : "Заказать"}
           </button>
           {!product.inStock && (
-            <p className="font-['Jost'] text-xs text-[#8B7B6E] mt-3">Мастер сошьёт эту модель после оформления заказа и сообщит сроки.</p>
+            <p className="font-['Jost'] text-xs text-[#8B7B6E] mt-3">Изготовим на заказ: мастер сошьёт эту модель после оформления заказа и сообщит сроки.</p>
           )}
         </div>
       </div>

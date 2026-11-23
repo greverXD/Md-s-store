@@ -4,6 +4,7 @@ import { Heart, ShoppingCart } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { fmt } from "@/lib/format";
 import { useCart } from "@/context/CartContext";
+import { StockBadge } from "@/components/ui";
 
 export function ProductCard({ product }: { product: Product }) {
   const [liked, setLiked] = useState(false);
@@ -19,15 +20,13 @@ export function ProductCard({ product }: { product: Product }) {
           )}
         </Link>
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/8 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        {product.isNew && product.inStock && (
-          <span className="absolute top-3 left-3 text-[10px] tracking-widest uppercase font-['Jost'] font-medium px-2.5 py-1 rounded-full"
-            style={{ background: "#B8975A", color: "#fff" }}>Новинка</span>
-        )}
-        {!product.inStock && (
-          <span className="absolute top-3 left-3 text-[10px] tracking-widest uppercase font-['Jost'] font-medium px-2.5 py-1 rounded-full bg-[#E8DDD0] text-[#8B7B6E]">
-            На заказ
-          </span>
-        )}
+        <div className="pointer-events-none absolute top-3 left-3 flex flex-col items-start gap-1.5">
+          <StockBadge inStock={product.inStock} />
+          {product.isNew && (
+            <span className="text-[10px] tracking-widest uppercase font-['Jost'] font-medium px-2.5 py-1 rounded-full"
+              style={{ background: "#B8975A", color: "#fff" }}>Новинка</span>
+          )}
+        </div>
         <button onClick={() => setLiked(l => !l)} aria-label="В избранное"
           className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-sm transition-all duration-200 hover:scale-110">
           <Heart size={14} fill={liked ? "#B8975A" : "none"} stroke={liked ? "#B8975A" : "#8B7B6E"} />

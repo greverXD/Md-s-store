@@ -1,6 +1,6 @@
 export type DollType = "textile" | "paola" | "nines" | "minikane";
 export type OutfitZone = "head" | "body" | "top" | "bottom" | "feet" | "hand";
-export type ProductKind = "doll" | "clothing" | "accessory";
+export type ProductKind = "doll" | "clothing" | "accessory" | "diy";
 
 export interface Product {
   id: string;

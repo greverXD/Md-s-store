@@ -7,7 +7,7 @@ const q = (v: unknown) =>
   v === null || v === undefined ? "null" : typeof v === "number" || typeof v === "boolean" ? String(v) : `'${String(v).replace(/'/g, "''")}'`;
 
 const products = DEMO_PRODUCTS.map(p =>
-  `(${[p.id, p.kind, p.dollType, p.category, p.name, p.price, p.image, p.isNew, p.inStock, p.height, p.hairColor, p.eyeColor, p.collection].map(q).join(", ")})`
+  `(${[p.id, p.kind, p.dollType, p.category, p.name, p.price, p.image, p.isNew, p.inStock, p.height, p.hairColor, p.eyeColor, p.collection, p.description].map(q).join(", ")})`
 ).join(",\n");
 
 const outfit = DEMO_OUTFIT_ITEMS.map(o =>
@@ -16,7 +16,7 @@ const outfit = DEMO_OUTFIT_ITEMS.map(o =>
 
 const sql = `-- Демо-каталог из макета Figma. Сгенерировано scripts/gen-seed.ts.
 -- Запуск: SQL Editor → Run (после миграции). Повторный запуск безопасен.
-insert into public.products (slug, kind, doll_type, category, name, price, image_url, is_new, in_stock, height, hair_color, eye_color, collection) values
+insert into public.products (slug, kind, doll_type, category, name, price, image_url, is_new, in_stock, height, hair_color, eye_color, collection, description) values
 ${products}
 on conflict (slug) do nothing;
 

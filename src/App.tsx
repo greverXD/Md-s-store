@@ -13,6 +13,8 @@ import HomePage from "@/pages/HomePage";
 const DollsPage = lazy(() => import("@/pages/DollsPage"));
 const ClothesPage = lazy(() => import("@/pages/ClothesPage"));
 const AccessoriesPage = lazy(() => import("@/pages/AccessoriesPage"));
+const DiyPage = lazy(() => import("@/pages/DiyPage"));
+const AboutPage = lazy(() => import("@/pages/AboutPage"));
 const BuilderPage = lazy(() => import("@/pages/BuilderPage"));
 const ProductPage = lazy(() => import("@/pages/ProductPage"));
 const CartPage = lazy(() => import("@/pages/CartPage"));
@@ -53,6 +55,8 @@ export default function App() {
             <Route path="/clothes" element={<ClothesPage />} />
             <Route path="/clothes/:type" element={<ClothesPage />} />
             <Route path="/accessories" element={<AccessoriesPage />} />
+            <Route path="/diy" element={<DiyPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/builder" element={<BuilderPage />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/cart" element={<CartPage />} />
